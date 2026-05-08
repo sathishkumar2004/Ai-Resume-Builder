@@ -7,7 +7,12 @@ const aiRouter = require("./routes/aiRoutes");
 
 const app = express();
 
-app.use(cors());
+const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+
+app.use(cors({
+  origin: frontendUrl,
+  credentials: true
+}));
 app.use(express.json());
 
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/user";
