@@ -15,16 +15,23 @@ app.use(cors({
 }));
 app.use(express.json());
 
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/user";
+const MONGO_URI = process.env.MONGO_URI || process.env.MONGODB_URI;
 const PORT = process.env.PORT || 5000;
 
-mongoose.connect(MONGODB_URI)
-  .then(() => {
-    console.log("Database connected successfully!!");
-  })
-  .catch((err) => {
-    console.log("Database connection failed:", err.message);
-  });
+const connectDB = async () => {
+  try {
+    if (!MONGO_URI) {
+      console.warn("⚠️ WARNING: MONGO_URI is not defined. Falling back to local database.");
+    }
+    const conn = await mongoose.connect(MONGO_URI || "mongodb://127.0.0.1:27017/user");
+    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.error(`❌ Error connecting to MongoDB: ${error.message}`);
+    process.exit(1);
+  }
+};
+
+connectDB();
 
 app.use("/api/auth", authRouter);
 app.use("/api/ai", aiRouter);
