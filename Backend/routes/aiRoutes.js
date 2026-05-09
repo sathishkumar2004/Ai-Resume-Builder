@@ -45,7 +45,7 @@ router.post("/enhance", async (req, res) => {
         
         CRITICAL CONSTRAINT: 
         1. Keep the output extremely concise to perfectly fit into a modern one-page resume template without overflowing.
-        ${field === 'summary' ? '2. STRICT LENGTH LIMIT: MAXIMUM 40 words (around 250 characters). OUTPUT MUST BE A SINGLE COHESIVE PARAGRAPH. NO BULLET POINTS. NO NEW LINES.' : '2. STRICT LENGTH LIMIT: MAXIMUM 15-20 words per bullet point or sentence. Maintain the exact same number of bullet points as the input.'}
+        ${field === 'summary' ? '2. STRICT LENGTH LIMIT: MAXIMUM 200 CHARACTERS. OUTPUT MUST BE A SINGLE PARAGRAPH. NO BULLET POINTS. NO NEW LINES.' : '2. STRICT LENGTH LIMIT: MAXIMUM 100 CHARACTERS PER BULLET POINT. Maintain the exact same number of bullet points as the input.'}
         3. ONLY improve the professional wording, vocabulary, metrics, and impact.
         4. DO NOT add fabricated achievements or remove existing meaning. DO NOT output introductory or conversational text.
         
@@ -104,10 +104,10 @@ router.post("/generate-full", async (req, res) => {
       {
         "role": "${role}",
         "sections": [
-          { "id": "summary", "content": "Professional summary with metrics (STRICT LIMIT: MAXIMUM 40 words / 250 characters)" },
+          { "id": "summary", "content": "Professional summary with metrics (STRICT LIMIT: MAXIMUM 200 CHARACTERS TOTAL)" },
           { "id": "skills", "content": "List of top tech skills as a comma-separated string (e.g., React, Node.js, AWS)" },
-          { "id": "experience", "content": [ { "company": "...", "position": "...", "start": "...", "end": "...", "location": "...", "description": "Bullet points with metrics (STRICT LIMIT: max 3 bullets, MAXIMUM 15 words per bullet)" } ] },
-          { "id": "projects", "content": [ { "title": "...", "stack": "...", "description": "Bullet points (STRICT LIMIT: max 2 bullets, MAXIMUM 15 words per bullet)" } ] }
+          { "id": "experience", "content": [ { "company": "...", "position": "...", "start": "...", "end": "...", "location": "...", "description": "Bullet points with metrics (STRICT LIMIT: max 3 bullets, MAXIMUM 100 CHARACTERS PER BULLET)" } ] },
+          { "id": "projects", "content": [ { "title": "...", "stack": "...", "description": "Bullet points (STRICT LIMIT: max 2 bullets, MAXIMUM 100 CHARACTERS PER BULLET)" } ] }
         ]
       }
       Ensure all descriptions are highly concise, impactful, result-oriented, and use strong action verbs. The experience section should have 2-3 entries.
