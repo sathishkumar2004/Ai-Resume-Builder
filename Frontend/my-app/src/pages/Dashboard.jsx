@@ -768,20 +768,20 @@ export default function Dashboard() {
           .search-box { display: none; }
           
           /* Compact Template Cards */
-          .template-card-premium { height: auto; min-height: unset; padding: 12px; width: 100%; }
-          .template-visual-container { height: 220px; padding-bottom: 0; border-radius: 10px; }
+          .template-card-premium { height: auto; min-height: unset; padding: 12px; width: 100%; box-sizing: border-box; overflow: hidden; }
+          .template-visual-container { height: 220px; padding-bottom: 0; border-radius: 10px; width: 100%; box-sizing: border-box; }
           .mini-tmpl-scale { transform: scale(0.25); transform-origin: top center; }
         }
 
         @media (max-width: 480px) {
-          .template-grid-modern { grid-template-columns: 1fr; display: grid; gap: 16px; }
-          .template-card-premium { max-width: 100%; }
+          .template-grid-modern { grid-template-columns: 1fr; display: grid; gap: 16px; width: 100%; box-sizing: border-box; overflow: hidden; }
+          .template-card-premium { width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; }
           .hero-section { margin-bottom: 24px; }
           
           /* Ultra Compact for Phones */
-          .template-visual-container { height: 180px; }
+          .template-visual-container { height: 180px; width: 100%; box-sizing: border-box; }
           .mini-tmpl-scale { transform: scale(0.2); }
-          .btn-choose-gradient { height: 44px; font-size: 0.9rem; }
+          .btn-choose-gradient { height: 44px; font-size: 0.9rem; width: 100%; box-sizing: border-box; }
         }
       `}</style>
 
