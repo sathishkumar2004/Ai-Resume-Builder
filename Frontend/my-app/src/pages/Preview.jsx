@@ -18,9 +18,9 @@ export default function Preview() {
 
   const fitZoom = React.useCallback(() => {
     const A4_WIDTH = 794;
-    const availableWidth = window.innerWidth < 768 ? window.innerWidth * 0.85 : window.innerWidth * 0.45;
+    const availableWidth = window.innerWidth < 768 ? window.innerWidth * 0.92 : window.innerWidth * 0.45;
     const calculatedZoom = availableWidth / A4_WIDTH;
-    setZoom(Math.max(0.3, Math.min(1.5, calculatedZoom)));
+    setZoom(Math.max(0.2, Math.min(1.5, calculatedZoom)));
   }, []);
 
   // Auto-fit on mount or resize
@@ -304,14 +304,6 @@ export default function Preview() {
           .zoom-value-u { width: 32px; font-size: 0.65rem; }
           .preview-stage-u { padding: 30px 10px; }
           .resume-wrapper-u { box-shadow: 0 10px 30px rgba(0,0,0,0.08); margin: 0 auto 40px; }
-
-          /* Proportional internal scaling for mobile readability */
-          .resume-canvas-u h1 { font-size: 22px !important; }
-          .resume-canvas-u h2 { font-size: 10px !important; margin-bottom: 6px !important; }
-          .resume-canvas-u p, .resume-canvas-u span, .resume-canvas-u li { font-size: 9.5px !important; line-height: 1.4 !important; }
-          .resume-canvas-u section { gap: 12px !important; }
-          .resume-canvas-u header { margin-bottom: 16px !important; }
-          .resume-canvas-u [style*="padding: 40px"] { padding: 24px !important; }
         }
 
         @media (max-width: 480px) {
