@@ -766,22 +766,12 @@ export default function Dashboard() {
           .stats-grid { grid-template-columns: 1fr; gap: 16px; margin-bottom: 32px; }
           .desktop-only { display: none; }
           .search-box { display: none; }
-          
-          /* Compact Template Cards */
-          .template-card-premium { height: auto; min-height: unset; padding: 12px; width: 100%; box-sizing: border-box; overflow: hidden; }
-          .template-visual-container { height: 220px; padding-bottom: 0; border-radius: 10px; width: 100%; box-sizing: border-box; }
-          .mini-tmpl-scale { transform: scale(0.25); transform-origin: top center; }
+          .template-grid-modern { justify-content: center; }
         }
 
         @media (max-width: 480px) {
-          .template-grid-modern { grid-template-columns: 1fr; display: grid; gap: 16px; width: 100%; box-sizing: border-box; overflow: hidden; }
-          .template-card-premium { width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; }
+          .template-grid-modern { display: flex; flex-direction: column; align-items: center; gap: 24px; }
           .hero-section { margin-bottom: 24px; }
-          
-          /* Ultra Compact for Phones */
-          .template-visual-container { height: 180px; width: 100%; box-sizing: border-box; }
-          .mini-tmpl-scale { transform: scale(0.2); }
-          .btn-choose-gradient { height: 44px; font-size: 0.9rem; width: 100%; box-sizing: border-box; }
         }
       `}</style>
 
