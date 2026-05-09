@@ -95,13 +95,13 @@ export default function AIWizard() {
   // ─── Step 0: Choose type ─────────────────────────────────────────────────
   if (step === 0) {
     return (
-      <div style={S.page}>
+      <div style={S.page} className="wizard-page">
         <button onClick={() => navigate("/dashboard")} style={S.backBtn}><ArrowLeft size={18}/> Dashboard</button>
         <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} style={S.center}>
           <div style={S.wizardBadge}><Wand2 size={16}/> AI Resume Wizard</div>
           <h1 style={S.h1}>Build Your Resume in Minutes</h1>
           <p style={S.sub}>Answer a few questions and AI will generate a professional resume for you instantly.</p>
-          <div style={S.typeGrid}>
+          <div style={S.typeGrid} className="wizard-type-grid">
             <motion.button whileHover={{scale:1.03}} whileTap={{scale:0.97}} style={S.typeCard} onClick={() => { setCandidateType("fresher"); setStep(1); }}>
               <GraduationCap size={40} color="#2563eb"/>
               <h3 style={{margin:"12px 0 6px",color:"#1e293b"}}>🎓 Fresher / Student</h3>
@@ -183,8 +183,8 @@ export default function AIWizard() {
     <div style={S.page}>
       <button onClick={back} style={S.backBtn}><ArrowLeft size={18}/> {step === 1 ? "Change Type" : "Back"}</button>
 
-      <div style={S.wizardWrap}>
-        <div style={S.wizardCard}>
+      <div style={S.wizardWrap} className="wizard-page">
+        <div style={S.wizardCard} className="wizard-card">
           <ProgressBar/>
           <AnimatePresence mode="wait">
             <motion.div key={step} initial={{x:30,opacity:0}} animate={{x:0,opacity:1}} exit={{x:-30,opacity:0}} transition={{duration:0.25}}>
@@ -193,9 +193,9 @@ export default function AIWizard() {
               {isFresher && step === 1 && (
                 <div>
                   <h2 style={S.stepTitle}>👤 Personal Information</h2>
-                  <div style={S.row}><Field label="Full Name *" placeholder="e.g. Priya Sharma" field="name" half/>
+                  <div style={S.row} className="wizard-row"><Field label="Full Name *" placeholder="e.g. Priya Sharma" field="name" half/>
                   <Field label="Role Applying For *" placeholder="e.g. Frontend Developer" field="role" half/></div>
-                  <div style={S.row}><Field label="Email Address *" placeholder="priya@email.com" field="email" type="email" half/>
+                  <div style={S.row} className="wizard-row"><Field label="Email Address *" placeholder="priya@email.com" field="email" type="email" half/>
                   <Field label="Phone Number *" placeholder="+91 98765 43210" field="phone" half/></div>
                   <Field label="Current Location" placeholder="Chennai, India" field="location"/>
                 </div>
@@ -204,7 +204,7 @@ export default function AIWizard() {
                 <div>
                   <h2 style={S.stepTitle}>🎓 Education Details</h2>
                   <Field label="College / School Name *" placeholder="Anna University" field="college"/>
-                  <div style={S.row}><Field label="Degree / Course *" placeholder="B.E. Computer Science" field="degree" half/>
+                  <div style={S.row} className="wizard-row"><Field label="Degree / Course *" placeholder="B.E. Computer Science" field="degree" half/>
                   <Field label="Year of Passing *" placeholder="2025" field="yearOfPassing" half/></div>
                 </div>
               )}
@@ -218,9 +218,9 @@ export default function AIWizard() {
               {isFresher && step === 4 && (
                 <div>
                   <h2 style={S.stepTitle}>📋 Personal Details <span style={{fontSize:"0.75rem",color:"#64748b",fontWeight:"400"}}>(Optional)</span></h2>
-                  <div style={S.row}><Field label="Father's Name" placeholder="Mr. Rajesh Sharma" field="fatherName" half/>
+                  <div style={S.row} className="wizard-row"><Field label="Father's Name" placeholder="Mr. Rajesh Sharma" field="fatherName" half/>
                   <Field label="Date of Birth" placeholder="DD/MM/YYYY" field="dob" half/></div>
-                  <div style={S.row}><Field label="Nationality" placeholder="Indian" field="nationality" half/>
+                  <div style={S.row} className="wizard-row"><Field label="Nationality" placeholder="Indian" field="nationality" half/>
                   <Field label="Address" placeholder="123 Main St, Chennai" field="address" half/></div>
                   <div style={{...S.tipBox,marginTop:"16px"}}>
                     💡 <strong>Tip:</strong> Personal details like Date of Birth and Father's Name are optional for most private sector jobs. Include them for government job applications.
@@ -263,9 +263,9 @@ export default function AIWizard() {
               {!isFresher && step === 1 && (
                 <div>
                   <h2 style={S.stepTitle}>👤 Personal Information</h2>
-                  <div style={S.row}><Field label="Full Name *" placeholder="e.g. Arjun Kumar" field="name" half/>
+                  <div style={S.row} className="wizard-row"><Field label="Full Name *" placeholder="e.g. Arjun Kumar" field="name" half/>
                   <Field label="Target Role *" placeholder="e.g. Senior Backend Developer" field="role" half/></div>
-                  <div style={S.row}><Field label="Email Address *" placeholder="arjun@email.com" field="email" type="email" half/>
+                  <div style={S.row} className="wizard-row"><Field label="Email Address *" placeholder="arjun@email.com" field="email" type="email" half/>
                   <Field label="Phone Number" placeholder="+91 98765 43210" field="phone" half/></div>
                   <Field label="Current Location" placeholder="Bangalore, India" field="location"/>
                 </div>
@@ -273,7 +273,7 @@ export default function AIWizard() {
               {!isFresher && step === 2 && (
                 <div>
                   <h2 style={S.stepTitle}>💼 Work Experience</h2>
-                  <div style={S.row}><Field label="Years of Experience *" placeholder="e.g. 4" field="experienceYears" half/>
+                  <div style={S.row} className="wizard-row"><Field label="Years of Experience *" placeholder="e.g. 4" field="experienceYears" half/>
                   <Field label="Current / Last Company *" placeholder="e.g. Infosys Ltd" field="currentCompany" half/></div>
                   <Field label="Highest Education" placeholder="B.E. Computer Science, Anna University" field="education"/>
                   <div style={S.tipBox}>💡 AI will generate realistic, ATS-optimized bullet points for your experience based on your role.</div>
@@ -322,7 +322,7 @@ export default function AIWizard() {
 
           {/* Navigation */}
           {!(step === totalSteps) && (
-            <div style={{display:"flex",justifyContent:"flex-end",marginTop:"24px"}}>
+            <div style={{display:"flex",justifyContent:"flex-end",marginTop:"24px"}} className="wizard-next-row">
               <button style={S.nextBtn} onClick={next}>
                 {step === totalSteps - 1 ? "Review & Generate" : "Next"} <ArrowRight size={16}/>
               </button>
@@ -342,33 +342,50 @@ export default function AIWizard() {
 
 // ─── Styles ────────────────────────────────────────────────────────────────
 const S = {
-  page: { minHeight:"100vh", background:"linear-gradient(135deg,#f0f4ff 0%,#f8fafc 100%)", padding:"24px 16px", fontFamily:"'Inter',sans-serif" },
-  backBtn: { display:"flex",alignItems:"center",gap:"8px",background:"white",border:"1px solid #e2e8f0",borderRadius:"10px",padding:"8px 16px",cursor:"pointer",color:"#475569",fontWeight:"600",fontSize:"0.85rem",marginBottom:"24px",transition:"0.2s" },
+  page: { minHeight:"100vh", background:"linear-gradient(135deg,#f0f4ff 0%,#f8fafc 100%)", padding:"24px 16px", fontFamily:"'Inter',sans-serif", boxSizing:"border-box" },
+  backBtn: { display:"inline-flex",alignItems:"center",gap:"8px",background:"white",border:"1px solid #e2e8f0",borderRadius:"10px",padding:"8px 16px",cursor:"pointer",color:"#475569",fontWeight:"600",fontSize:"0.85rem",marginBottom:"24px",transition:"0.2s" },
   center: { maxWidth:"720px", margin:"0 auto", textAlign:"center" },
   wizardBadge: { display:"inline-flex",alignItems:"center",gap:"6px",background:"#eff6ff",color:"#2563eb",padding:"6px 14px",borderRadius:"100px",fontSize:"0.8rem",fontWeight:"700",marginBottom:"16px" },
-  h1: { fontSize:"clamp(1.6rem,4vw,2.4rem)", fontWeight:"800", color:"#0f172a", margin:"0 0 12px" },
-  sub: { color:"#64748b", fontSize:"1rem", marginBottom:"40px" },
-  typeGrid: { display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))", gap:"20px", textAlign:"left" },
-  typeCard: { background:"white", border:"2px solid #e2e8f0", borderRadius:"20px", padding:"32px 28px", cursor:"pointer", textAlign:"center", transition:"0.2s", boxShadow:"0 4px 20px rgba(0,0,0,0.04)" },
+  h1: { fontSize:"clamp(1.4rem,5vw,2.4rem)", fontWeight:"800", color:"#0f172a", margin:"0 0 12px" },
+  sub: { color:"#64748b", fontSize:"clamp(0.85rem,3vw,1rem)", marginBottom:"32px" },
+  typeGrid: { display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))", gap:"16px", textAlign:"left" },
+  typeCard: { background:"white", border:"2px solid #e2e8f0", borderRadius:"20px", padding:"24px 20px", cursor:"pointer", textAlign:"center", transition:"0.2s", boxShadow:"0 4px 20px rgba(0,0,0,0.04)", width:"100%", boxSizing:"border-box" },
   pillBlue: { display:"inline-block", marginTop:"16px", background:"#2563eb", color:"white", borderRadius:"100px", padding:"8px 20px", fontSize:"0.85rem", fontWeight:"700" },
-  wizardWrap: { maxWidth:"680px", margin:"0 auto" },
-  wizardCard: { background:"white", borderRadius:"24px", padding:"32px", boxShadow:"0 20px 60px rgba(0,0,0,0.08)", border:"1px solid #e2e8f0" },
-  progressWrap: { display:"flex", alignItems:"flex-start", marginBottom:"32px", overflowX:"auto" },
-  dot: { width:"28px", height:"28px", borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"0.75rem", fontWeight:"700", flexShrink:0 },
-  stepTitle: { fontSize:"1.25rem", fontWeight:"800", color:"#0f172a", marginBottom:"20px" },
-  row: { display:"flex", gap:"12px", flexWrap:"wrap" },
-  fieldWrap: { marginBottom:"14px", flex:"1 1 100%" },
+  wizardWrap: { maxWidth:"680px", margin:"0 auto", width:"100%" },
+  wizardCard: { background:"white", borderRadius:"20px", padding:"24px", boxShadow:"0 20px 60px rgba(0,0,0,0.08)", border:"1px solid #e2e8f0", boxSizing:"border-box", overflowX:"hidden" },
+  progressWrap: { display:"flex", alignItems:"flex-start", marginBottom:"28px", overflowX:"auto", paddingBottom:"4px" },
+  dot: { width:"26px", height:"26px", borderRadius:"50%", display:"flex", alignItems:"center", justifyContent:"center", fontSize:"0.7rem", fontWeight:"700", flexShrink:0 },
+  stepTitle: { fontSize:"clamp(1rem,4vw,1.25rem)", fontWeight:"800", color:"#0f172a", marginBottom:"18px" },
+  row: { display:"flex", gap:"10px", flexWrap:"wrap" },
+  fieldWrap: { marginBottom:"14px", flex:"1 1 100%", minWidth:"0", boxSizing:"border-box" },
   label: { display:"block", fontSize:"0.8rem", fontWeight:"700", color:"#475569", marginBottom:"6px" },
-  input: { width:"100%", boxSizing:"border-box", padding:"10px 14px", border:"1.5px solid #e2e8f0", borderRadius:"10px", fontSize:"0.9rem", color:"#1e293b", background:"white", transition:"0.2s" },
-  suggChip: { background:"#f1f5f9", border:"1px dashed #cbd5e1", borderRadius:"8px", padding:"5px 10px", fontSize:"0.78rem", cursor:"pointer", color:"#475569", display:"flex", alignItems:"center", gap:"4px", transition:"0.2s" },
+  input: { width:"100%", boxSizing:"border-box", padding:"11px 14px", border:"1.5px solid #e2e8f0", borderRadius:"10px", fontSize:"16px", color:"#1e293b", background:"white", transition:"0.2s" },
+  suggChip: { background:"#f1f5f9", border:"1px dashed #cbd5e1", borderRadius:"8px", padding:"6px 10px", fontSize:"0.78rem", cursor:"pointer", color:"#475569", display:"flex", alignItems:"center", gap:"4px", transition:"0.2s" },
   chip: { background:"#eff6ff", border:"1px solid #bfdbfe", borderRadius:"8px", padding:"5px 10px", fontSize:"0.8rem", color:"#1e40af", fontWeight:"600", display:"flex", alignItems:"center", gap:"4px" },
-  addBtn: { background:"#2563eb", color:"white", border:"none", borderRadius:"10px", padding:"10px 16px", cursor:"pointer", fontWeight:"700", fontSize:"0.85rem" },
-  tipBox: { background:"#fffbeb", border:"1px solid #fde68a", borderRadius:"10px", padding:"12px 16px", fontSize:"0.82rem", color:"#92400e", marginTop:"12px" },
-  summaryBox: { background:"#f8fafc", border:"1px solid #e2e8f0", borderRadius:"12px", padding:"16px", marginBottom:"24px", textAlign:"left" },
-  summaryRow: { display:"flex", justifyContent:"space-between", padding:"6px 0", borderBottom:"1px solid #f1f5f9", fontSize:"0.85rem", color:"#64748b" },
-  generateBtn: { display:"inline-flex", alignItems:"center", gap:"10px", background:"#2563eb", color:"white", border:"none", borderRadius:"12px", padding:"14px 28px", fontSize:"1rem", fontWeight:"700", cursor:"pointer", transition:"0.2s" },
+  addBtn: { background:"#2563eb", color:"white", border:"none", borderRadius:"10px", padding:"11px 16px", cursor:"pointer", fontWeight:"700", fontSize:"0.85rem", flexShrink:0 },
+  tipBox: { background:"#fffbeb", border:"1px solid #fde68a", borderRadius:"10px", padding:"12px 16px", fontSize:"0.82rem", color:"#92400e", marginTop:"12px", lineHeight:"1.5" },
+  summaryBox: { background:"#f8fafc", border:"1px solid #e2e8f0", borderRadius:"12px", padding:"14px", marginBottom:"20px", textAlign:"left" },
+  summaryRow: { display:"flex", justifyContent:"space-between", alignItems:"flex-start", gap:"8px", padding:"6px 0", borderBottom:"1px solid #f1f5f9", fontSize:"0.82rem", color:"#64748b", flexWrap:"wrap" },
+  generateBtn: { display:"inline-flex", alignItems:"center", justifyContent:"center", gap:"10px", background:"#2563eb", color:"white", border:"none", borderRadius:"12px", padding:"14px 24px", fontSize:"0.95rem", fontWeight:"700", cursor:"pointer", transition:"0.2s", width:"100%", maxWidth:"360px", boxSizing:"border-box" },
   errorBox: { background:"#fef2f2", border:"1px solid #fecaca", borderRadius:"10px", padding:"12px 16px", color:"#dc2626", fontSize:"0.85rem", marginBottom:"16px", textAlign:"left" },
   nextBtn: { display:"flex", alignItems:"center", gap:"8px", background:"#2563eb", color:"white", border:"none", borderRadius:"10px", padding:"12px 24px", fontWeight:"700", fontSize:"0.9rem", cursor:"pointer" },
 };
 
-const globalCSS = `@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');`;
+const globalCSS = `
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* Mobile fixes for AI Wizard */
+@media (max-width: 600px) {
+  .wizard-row { flex-direction: column !important; }
+  .wizard-row > div { flex: 1 1 100% !important; min-width: 0 !important; }
+  .wizard-type-grid { grid-template-columns: 1fr !important; }
+  .wizard-action-btns { flex-direction: column !important; align-items: stretch !important; }
+  .wizard-action-btns button { width: 100% !important; justify-content: center !important; }
+  .wizard-next-row { justify-content: stretch !important; }
+  .wizard-next-row button { width: 100% !important; justify-content: center !important; }
+  .wizard-generate-btn { width: 100% !important; max-width: none !important; }
+  .wizard-sugg-chips { gap: 6px !important; }
+  .wizard-card { padding: 16px !important; border-radius: 16px !important; }
+  .wizard-page { padding: 16px 12px !important; }
+}
+`;
