@@ -44,11 +44,10 @@ router.post("/enhance", async (req, res) => {
         ${roleFocus} 
         
         CRITICAL CONSTRAINT: 
-        1. Maintain the EXACT SAME number of bullet points/sentences as the input. 
-        2. Keep the total length (character count) within +/- 10% of the original.
-        3. ONLY improve the professional wording, vocabulary, and impact. 
-        4. DO NOT add new achievements or remove existing ones.
-        ${field === 'summary' ? '5. OUTPUT MUST BE A SINGLE COHESIVE PARAGRAPH. NO BULLET POINTS. NO NEW LINES.' : ''}
+        1. Keep the output extremely concise to perfectly fit into a modern one-page resume template without overflowing.
+        ${field === 'summary' ? '2. STRICT LENGTH LIMIT: MAXIMUM 40 words (around 250 characters). OUTPUT MUST BE A SINGLE COHESIVE PARAGRAPH. NO BULLET POINTS. NO NEW LINES.' : '2. STRICT LENGTH LIMIT: MAXIMUM 15-20 words per bullet point or sentence. Maintain the exact same number of bullet points as the input.'}
+        3. ONLY improve the professional wording, vocabulary, metrics, and impact.
+        4. DO NOT add fabricated achievements or remove existing meaning. DO NOT output introductory or conversational text.
         
         Original ${field}: "${value}"
         Improved Version:`;
@@ -105,13 +104,13 @@ router.post("/generate-full", async (req, res) => {
       {
         "role": "${role}",
         "sections": [
-          { "id": "summary", "content": "Professional summary with metrics (approx 300 chars)" },
-          { "id": "skills", "content": "List of tech skills categorized (Frontend: ..., Backend: ...)" },
-          { "id": "experience", "content": [ { "company": "...", "position": "...", "start": "...", "end": "...", "location": "...", "description": "Bullet points with metrics (max 4 bullets)" } ] },
-          { "id": "projects", "content": [ { "title": "...", "stack": "...", "description": "Bullet points (max 3 bullets)" } ] }
+          { "id": "summary", "content": "Professional summary with metrics (STRICT LIMIT: MAXIMUM 40 words / 250 characters)" },
+          { "id": "skills", "content": "List of top tech skills as a comma-separated string (e.g., React, Node.js, AWS)" },
+          { "id": "experience", "content": [ { "company": "...", "position": "...", "start": "...", "end": "...", "location": "...", "description": "Bullet points with metrics (STRICT LIMIT: max 3 bullets, MAXIMUM 15 words per bullet)" } ] },
+          { "id": "projects", "content": [ { "title": "...", "stack": "...", "description": "Bullet points (STRICT LIMIT: max 2 bullets, MAXIMUM 15 words per bullet)" } ] }
         ]
       }
-      Ensure all descriptions are impactful, result-oriented, and use strong action verbs. The experience section should have 2-3 entries.
+      Ensure all descriptions are highly concise, impactful, result-oriented, and use strong action verbs. The experience section should have 2-3 entries.
     `;
 
     const response = await callAI(prompt, "You are a Professional Resume Architect.");
