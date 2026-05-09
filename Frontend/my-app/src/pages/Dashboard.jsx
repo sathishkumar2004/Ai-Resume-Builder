@@ -168,6 +168,42 @@ export default function Dashboard() {
                 <p>You have <strong>{myResumes.length} active resumes</strong> in your workspace. Your latest version is performing well.</p>
               </div>
 
+              {/* AI Wizard CTA */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                style={{
+                  background: "linear-gradient(135deg, #2563eb 0%, #6366f1 100%)",
+                  borderRadius: "16px",
+                  padding: "20px 24px",
+                  marginBottom: "20px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "16px",
+                  flexWrap: "wrap",
+                  cursor: "pointer",
+                  boxShadow: "0 8px 32px rgba(37,99,235,0.25)",
+                }}
+                onClick={() => navigate("/wizard")}
+              >
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
+                    <span style={{ fontSize: "1.3rem" }}>🪄</span>
+                    <span style={{ color: "white", fontWeight: "800", fontSize: "1rem" }}>AI Resume Wizard</span>
+                    <span style={{ background: "rgba(255,255,255,0.2)", color: "white", padding: "2px 10px", borderRadius: "100px", fontSize: "0.7rem", fontWeight: "700" }}>NEW</span>
+                  </div>
+                  <p style={{ color: "rgba(255,255,255,0.85)", margin: 0, fontSize: "0.82rem" }}>Fresher or student? Answer a few questions and AI builds your resume instantly.</p>
+                </div>
+                <button
+                  style={{ background: "white", color: "#2563eb", border: "none", borderRadius: "10px", padding: "10px 20px", fontWeight: "800", fontSize: "0.85rem", cursor: "pointer", whiteSpace: "nowrap" }}
+                  onClick={(e) => { e.stopPropagation(); navigate("/wizard"); }}
+                >
+                  Start Wizard →
+                </button>
+              </motion.div>
+
               <div className="stats-grid">
                 {stats.map((stat, i) => (
                   <motion.div

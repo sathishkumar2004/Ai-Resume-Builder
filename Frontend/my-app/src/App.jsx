@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import ResumeBuilder from "./pages/ResumeBuilder";
 import Preview from "./pages/Preview";
+import AIWizard from "./pages/AIWizard";
 import useAuthStore from "./store/authStore";
 
 const ProtectedRoute = ({ children }) => {
@@ -48,6 +49,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/wizard" element={<ProtectedRoute><AIWizard /></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>

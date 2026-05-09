@@ -143,3 +143,82 @@ router.post("/suggest-skills", async (req, res) => {
 
 module.exports = router;
 
+// POST /api/ai/wizard-generate
+router.post("/wizard-generate", async (req, res) => {
+  try {
+    const { type, formData } = req.body;
+
+    let prompt = "";
+
+    if (type === "fresher") {
+      const { name, role, college, degree, yearOfPassing, skills, languages, dob, address, nationality, fatherName } = formData;
+      prompt = `
+        You are an expert resume writer. Generate a complete professional resume for a FRESHER student with ZERO work experience.
+        
+        Candidate Info:
+        - Name: ${name}
+        - Role Applying For: ${role}
+        - College: ${college}
+        - Degree: ${degree}
+        - Year of Passing: ${yearOfPassing}
+        - Skills: ${skills}
+        - Languages: ${languages}
+
+        Output ONLY a valid JSON object with this exact structure (no extra text, no markdown):
+        {
+          "summary": "A single ATS-friendly career objective paragraph. STRICT LIMIT: 180 characters max.",
+          "skills": "comma-separated skills list (max 12 skills)",
+          "education": [{ "degree": "${degree}", "institution": "${college}", "start": "", "end": "${yearOfPassing}", "location": "" }],
+          "certifications": [],
+          "experience": [],
+          "projects": [{ "title": "Academic Project relevant to ${role}", "stack": "relevant tech stack", "description": "• Brief impactful description (max 90 chars)." }]
+        }
+        
+        Rules:
+        - Summary must be a CAREER OBJECTIVE, NOT a work summary. Fresher-friendly tone.
+        - Skills: add implied skills based on the degree and role. Keep it to 10-15 items.
+        - Projects: generate 1 realistic academic/personal project relevant to the role.
+        - NEVER fabricate work experience.
+        - All content must fit a single A4 page.
+      `;
+    } else {
+      const { name, role, experienceYears, currentCompany, skills, education } = formData;
+      prompt = `
+        You are an expert resume writer. Generate a complete professional resume for an EXPERIENCED candidate.
+        
+        Candidate Info:
+        - Name: ${name}
+        - Target Role: ${role}
+        - Years of Experience: ${experienceYears}
+        - Current/Last Company: ${currentCompany}
+        - Skills: ${skills}
+        - Education: ${education}
+
+        Output ONLY a valid JSON object (no extra text, no markdown):
+        {
+          "summary": "Single powerful paragraph. STRICT LIMIT: 200 characters max.",
+          "skills": "comma-separated top 15 skills",
+          "experience": [
+            { "company": "${currentCompany}", "position": "${role}", "start": "Jan 2022", "end": "Present", "location": "Remote", "description": "• Achievement bullet 1 (max 90 chars).\\n• Achievement bullet 2 (max 90 chars).\\n• Achievement bullet 3 (max 90 chars)." }
+          ],
+          "education": [{ "degree": "${education}", "institution": "University", "start": "", "end": "2020", "location": "" }],
+          "projects": [],
+          "certifications": []
+        }
+        Rules:
+        - Summary must be professional and metrics-driven.
+        - Experience: max 3 bullet points, each under 90 characters.
+        - All content must fit a single A4 page.
+      `;
+    }
+
+    const response = await callAI(prompt, "You are a Professional Resume Architect. Always output valid JSON only.");
+    const jsonMatch = response.match(/\{[\s\S]*\}/);
+    const result = jsonMatch ? JSON.parse(jsonMatch[0]) : null;
+    if (!result) throw new Error("AI failed to generate structured resume.");
+    res.json({ success: true, resume: result });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
