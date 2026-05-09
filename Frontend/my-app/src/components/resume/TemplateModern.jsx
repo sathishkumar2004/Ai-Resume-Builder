@@ -19,11 +19,11 @@ export default function TemplateModern({ resume, primaryColor = '#2563eb' }) {
       fontFamily: "'Inter', sans-serif", 
       color: '#1e293b', 
       width: '100%', 
-      minHeight: '29.7cm',
-      position: 'relative',
+      minHeight: '29cm',
+      display: 'flex',
+      flexDirection: 'column',
       lineHeight: '1.5',
       padding: '40px',
-      paddingBottom: '80px', // Extra padding to avoid overlap with footer
       backgroundColor: '#fff',
       boxSizing: 'border-box'
     }}>
@@ -230,12 +230,9 @@ export default function TemplateModern({ resume, primaryColor = '#2563eb' }) {
         )}
       </div>
 
-      {/* Footer / Extra - Pinned to bottom */}
+      {/* Footer / Extra - Pushed to bottom with Flex */}
       <footer style={{ 
-        position: 'absolute', 
-        bottom: '40px', 
-        left: '40px', 
-        right: '40px', 
+        marginTop: 'auto',
         paddingTop: '15px', 
         borderTop: '1px solid #f1f5f9', 
         textAlign: 'center' 

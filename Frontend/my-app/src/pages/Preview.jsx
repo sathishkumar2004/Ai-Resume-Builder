@@ -144,35 +144,38 @@ export default function Preview() {
     document.body.appendChild(tempContainer);
 
     const clone = originalElement.cloneNode(true);
-    // Reset any transforms or absolute positioning that might interfere with html2pdf
     clone.style.transform = "none";
     clone.style.position = "relative";
     clone.style.left = "0";
     clone.style.top = "0";
     clone.style.margin = "0";
+    clone.style.padding = "0";
     clone.style.width = "794px";
-    clone.style.height = "1122px"; // Exactly A4 height to prevent spillover
+    clone.style.height = "1122px";
     clone.style.overflow = "hidden";
-    
     tempContainer.appendChild(clone);
 
-    const options = {
-      margin: 0,
-      filename: `${(displayResume.name || 'My').replace(/\s+/g, '_')}_Resume.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { 
-        scale: 2, 
-        useCORS: true, 
-        letterRendering: true,
-        logging: false,
-        backgroundColor: '#ffffff'
-      },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
-      pagebreak: { mode: 'avoid-all' }
-    };
-
     try {
-      await html2pdf().set(options).from(clone).save();
+      const html2canvas = (await import("html2canvas")).default;
+      const { jsPDF } = await import("jspdf");
+
+      const canvas = await html2canvas(clone, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: "#ffffff",
+        windowWidth: 794,
+        windowHeight: 1122
+      });
+
+      const imgData = canvas.toDataURL("image/jpeg", 0.98);
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "px",
+        format: [794, 1122]
+      });
+
+      pdf.addImage(imgData, "JPEG", 1, 1, 792, 1120);
+      pdf.save(`${(displayResume.name || 'EliteCV').replace(/\s+/g, '_')}_Resume.pdf`);
     } catch (err) {
       console.error("PDF generation failed:", err);
     } finally {

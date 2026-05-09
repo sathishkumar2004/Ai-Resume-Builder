@@ -9,11 +9,11 @@ export default function TemplateExecutive({ resume, primaryColor = '#1e293b' }) 
       fontFamily: "'Inter', sans-serif", 
       color: '#1a1a1a', 
       width: '100%', 
-      minHeight: '29.7cm',
-      position: 'relative',
+      minHeight: '29cm',
+      display: 'flex',
+      flexDirection: 'column',
       lineHeight: '1.4',
       padding: '50px',
-      paddingBottom: '80px',
       backgroundColor: '#fff',
       boxSizing: 'border-box'
     }}>
@@ -191,12 +191,9 @@ export default function TemplateExecutive({ resume, primaryColor = '#1e293b' }) 
         </div>
       )}
       
-      {/* Footer / Extra - Pinned to bottom */}
+      {/* Footer / Extra - Pushed to bottom with Flex */}
       <footer style={{ 
-        position: 'absolute', 
-        bottom: '40px', 
-        left: '50px', 
-        right: '50px', 
+        marginTop: 'auto',
         paddingTop: '20px', 
         borderTop: '1px solid #e5e7eb', 
         textAlign: 'center' 
