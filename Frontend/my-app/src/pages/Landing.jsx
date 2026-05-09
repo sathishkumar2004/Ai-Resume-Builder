@@ -331,6 +331,47 @@ export default function Landing() {
           .features-grid-u { grid-template-columns: 1fr; }
           .logo-grid { gap: 40px; flex-wrap: wrap; }
         }
+
+        @media (max-width: 768px) {
+          /* Navbar adjustments */
+          .nav-container { padding: 0 20px; }
+          .nav-links { display: none; }
+          .nav-auth .btn-ghost { display: none; }
+          .btn-primary-premium { padding: 10px 16px; font-size: 0.85rem; }
+          
+          /* Hero adjustments */
+          .hero-premium { padding: 60px 0 40px; }
+          .hero-container { padding: 0 20px; gap: 40px; }
+          .hero-text-content h1 { font-size: 2.5rem; letter-spacing: -1px; }
+          .hero-subtitle { font-size: 1.05rem; margin-bottom: 30px; }
+          .btn-hero-main { width: 100%; justify-content: center; padding: 16px 20px; font-size: 1rem; border-radius: 14px; }
+          .hero-stats { flex-direction: row; justify-content: center; gap: 20px; width: 100%; }
+          
+          /* Mockup visual scaling */
+          .builder-mockup-canvas { height: 320px; border-radius: 16px; }
+          .mockup-sidebar { display: none; } /* Hide sidebar to maximize space */
+          .mockup-content { padding: 20px; align-items: center; }
+          .mockup-a4 { transform: scale(0.9); transform-origin: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+          .floating-ui { font-size: 0.7rem; padding: 8px 12px; }
+          .f-1 { top: 10px; right: 10px; }
+          .f-2 { bottom: 10px; left: 10px; }
+          
+          /* Features */
+          .features-premium { padding: 60px 0; }
+          .section-title { font-size: 2.2rem; }
+          .features-grid-u { padding: 0 20px; gap: 20px; }
+          .feature-card-premium { padding: 32px 24px; border-radius: 20px; }
+          
+          /* Trust logos */
+          .trust-logos { padding: 40px 20px; }
+          .trust-logos p { font-size: 0.75rem; }
+          .logo-grid { gap: 24px; justify-content: center; }
+          .logo-grid span { font-size: 1rem; }
+          
+          /* Footer */
+          .footer-premium { padding: 40px 0; }
+          .footer-container { flex-direction: column; text-align: center; gap: 24px; padding: 0 20px; }
+        }
       `}</style>
     </div>
   );
