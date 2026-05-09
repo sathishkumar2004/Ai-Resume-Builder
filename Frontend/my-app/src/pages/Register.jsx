@@ -171,6 +171,14 @@ export default function Register() {
         .auth-footer { margin-top: 32px; text-align: center; color: #64748b; font-size: 0.9rem; }
         .auth-footer a { color: #2563eb; font-weight: 700; text-decoration: none; margin-left: 4px; }
         .auth-footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 480px) {
+          .premium-auth-page { padding: 16px; }
+          .auth-card-premium { padding: 32px 24px; border-radius: 24px; }
+          .auth-header h1 { font-size: 1.7rem; }
+          .auth-input-wrap { padding: 12px 16px; }
+          .btn-auth-submit { padding: 14px; font-size: 0.95rem; }
+        }
       `}</style>
     </div>
   );

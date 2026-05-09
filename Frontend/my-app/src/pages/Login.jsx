@@ -167,6 +167,14 @@ export default function Login() {
 
         .flex { display: flex; }
         .justify-between { justify-content: space-between; }
+        
+        @media (max-width: 480px) {
+          .premium-auth-page { padding: 16px; }
+          .auth-card-premium { padding: 32px 24px; border-radius: 24px; }
+          .auth-header h1 { font-size: 1.7rem; }
+          .auth-input-wrap { padding: 12px 16px; }
+          .btn-auth-submit { padding: 14px; font-size: 0.95rem; }
+        }
       `}</style>
     </div>
   );

@@ -759,21 +759,21 @@ export default function Dashboard() {
         }
 
         @media (max-width: 768px) {
-          .dashboard-main { padding: 20px; }
-          .main-header { padding: 16px 20px; }
+          .dashboard-content { padding: 20px; }
+          .main-header { padding: 16px 20px; height: auto; min-height: 72px; }
           .hero-section h1 { font-size: 1.5rem; }
           .hero-section p { font-size: 0.9rem; }
-          .stats-grid { grid-template-columns: 1fr; }
+          .stats-grid { grid-template-columns: 1fr; gap: 16px; margin-bottom: 32px; }
           .desktop-only { display: none; }
           .search-box { display: none; }
-          .template-visual-container { height: 260px; }
-          .mini-tmpl-scale { transform: scale(0.3); }
+          .template-visual-container { height: auto; padding-bottom: 10px; }
+          .mini-tmpl-scale { transform: scale(0.3); transform-origin: top center; }
         }
 
         @media (max-width: 480px) {
-          .template-grid-modern { grid-template-columns: 1fr; }
-          .hero-section { padding: 24px 20px; }
-          .dashboard-content { padding-top: 10px; }
+          .template-grid-modern { grid-template-columns: 1fr; display: flex; flex-direction: column; align-items: center; }
+          .template-card-premium { width: 100%; max-width: 320px; height: auto; min-height: 400px; }
+          .hero-section { margin-bottom: 24px; }
         }
       `}</style>
 
