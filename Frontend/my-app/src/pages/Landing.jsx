@@ -1,8 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { 
-  Sparkles, Zap, ShieldCheck, ArrowRight, BarChart3, 
+import {
+  Sparkles, Zap, ShieldCheck, ArrowRight, BarChart3,
   FileText, CheckCircle2, Globe, Rocket, ChevronRight,
   MousePointer2, Layout, Layers, Heart
 } from "lucide-react";
@@ -23,7 +23,7 @@ export default function Landing() {
             <div className="brand-icon"><Rocket size={20} /></div>
             <span>EliteCV</span>
           </div>
-          
+
           <div className="nav-links">
             <a href="#features">Features</a>
             <a href="#templates">Templates</a>
@@ -42,7 +42,7 @@ export default function Landing() {
       {/* Hero Section */}
       <section className="hero-premium">
         <div className="hero-container">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -52,12 +52,12 @@ export default function Landing() {
               <Sparkles size={14} className="text-blue-500" />
               <span>Next-Gen Career Intelligence</span>
             </div>
-            <h1>The smarter way to <br/> <span>get hired.</span></h1>
+            <h1>The smarter way to <br /> <span>get hired.</span></h1>
             <p className="hero-subtitle">
-              EliteCV combines recruiter insights with precision design to build resumes that pass ATS filters and command attention. 
+              EliteCV combines recruiter insights with precision design to build resumes that pass ATS filters and command attention.
               Join 50,000+ professionals winning interviews at top companies.
             </p>
-            
+
             <div className="hero-actions">
               <button onClick={() => navigate("/register")} className="btn-hero-main">
                 Get Started for Free <ChevronRight size={18} />
@@ -70,7 +70,7 @@ export default function Landing() {
           </motion.div>
 
           {/* High-Fidelity Hero Graphic */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.9, rotateX: 10 }}
             animate={{ opacity: 1, scale: 1, rotateX: 0 }}
             transition={{ delay: 0.3, duration: 1 }}
@@ -109,21 +109,21 @@ export default function Landing() {
       <section className="trust-logos">
         <p>Trusted by candidates at industry leaders</p>
         <div className="logo-grid">
-           <span>GOOGLE</span>
-           <span>AMAZON</span>
-           <span>META</span>
-           <span>STRIPE</span>
-           <span>AIRBNB</span>
+          <span>GOOGLE</span>
+          <span>AMAZON</span>
+          <span>META</span>
+          <span>STRIPE</span>
+          <span>AIRBNB</span>
         </div>
       </section>
 
       {/* Feature Section */}
       <section id="features" className="features-premium">
         <div className="section-header">
-           <h2 className="section-title">Engineered for Success</h2>
-           <p>Everything you need to stand out in a competitive job market.</p>
+          <h2 className="section-title">Engineered for Success</h2>
+          <p>Everything you need to stand out in a competitive job market.</p>
         </div>
-        
+
         <div className="features-grid-u">
           {[
             { icon: Zap, title: "Lightning Fast Editor", desc: "Our real-time split-pane builder eliminates the friction of traditional forms." },
@@ -259,7 +259,7 @@ export default function Landing() {
           gap: 80px;
         }
         .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: #eff6ff; color: var(--brand); padding: 8px 16px; border-radius: 100px; font-size: 0.85rem; font-weight: 700; margin-bottom: 24px; border: 1px solid rgba(37, 99, 235, 0.1); }
-        .hero-text-content h1 { font-size: 4.5rem; font-weight: 800; color: var(--text-main); line-height: 1.1; letter-spacing: -2px; margin-bottom: 24px; }
+        .hero-text-content h1 { font-size: 4rem; font-weight: 800; color: var(--text-main); line-height: 1.1; letter-spacing: -2px; margin-bottom: 24px; }
         .hero-text-content h1 span { color: var(--brand); }
         .hero-subtitle { font-size: 1.25rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 40px; max-width: 540px; }
         

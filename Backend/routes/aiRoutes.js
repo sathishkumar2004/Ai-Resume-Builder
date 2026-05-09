@@ -43,13 +43,11 @@ router.post("/enhance", async (req, res) => {
         ${basePrompt} 
         ${roleFocus} 
         
-        ${prompts.baseRules}
-        
-        CRITICAL TASK: 
+        CRITICAL CONSTRAINT: 
         1. Keep the output extremely concise to perfectly fit into a modern one-page resume template without overflowing.
-        ${field === 'summary' ? '2. STRICT LENGTH LIMIT: 120-320 characters. Maximum 3 concise sentences. OUTPUT MUST BE A SINGLE PARAGRAPH.' : '2. STRICT LENGTH LIMIT: 40-120 characters per bullet point. Maintain the exact same number of bullet points as the input.'}
+        ${field === 'summary' ? '2. STRICT LENGTH LIMIT: MAXIMUM 200 CHARACTERS. OUTPUT MUST BE A SINGLE PARAGRAPH. NO BULLET POINTS. NO NEW LINES.' : '2. STRICT LENGTH LIMIT: MAXIMUM 100 CHARACTERS PER BULLET POINT. Maintain the exact same number of bullet points as the input.'}
         3. ONLY improve the professional wording, vocabulary, metrics, and impact.
-        4. DO NOT add fabricated achievements or remove existing meaning. DO NOT output introductory text.
+        4. DO NOT add fabricated achievements or remove existing meaning. DO NOT output introductory or conversational text.
         
         Original ${field}: "${value}"
         Improved Version:`;
@@ -102,19 +100,17 @@ router.post("/generate-full", async (req, res) => {
     const prompt = `
       Create a highly professional, high-density, ATS-optimized resume structure for a ${level} level candidate applying for a ${role} position.
       
-      ${prompts.baseRules}
-      
-      Output ONLY a valid JSON object matching this exact structure:
+      Output ONLY a JSON object with this exact structure:
       {
         "role": "${role}",
         "sections": [
-          { "id": "summary", "content": "Professional summary with metrics (120-320 characters, max 3 sentences)" },
-          { "id": "skills", "content": "Comma-separated string of 6-18 skills (max 20 chars per skill)" },
-          { "id": "experience", "content": [ { "company": "...", "position": "...", "start": "...", "end": "...", "location": "...", "description": "Bullet points with metrics (2-4 bullets, 40-120 characters each)" } ] },
-          { "id": "projects", "content": [ { "title": "...", "stack": "...", "description": "Bullet points (max 2 bullets, 60-180 characters each)" } ] }
+          { "id": "summary", "content": "Professional summary with metrics (STRICT LIMIT: MAXIMUM 200 CHARACTERS TOTAL)" },
+          { "id": "skills", "content": "List of top tech skills as a comma-separated string (e.g., React, Node.js, AWS)" },
+          { "id": "experience", "content": [ { "company": "...", "position": "...", "start": "...", "end": "...", "location": "...", "description": "Bullet points with metrics (STRICT LIMIT: max 3 bullets, MAXIMUM 100 CHARACTERS PER BULLET)" } ] },
+          { "id": "projects", "content": [ { "title": "...", "stack": "...", "description": "Bullet points (STRICT LIMIT: max 2 bullets, MAXIMUM 100 CHARACTERS PER BULLET)" } ] }
         ]
       }
-      Ensure all descriptions are highly concise, impactful, result-oriented, and use strong action verbs.
+      Ensure all descriptions are highly concise, impactful, result-oriented, and use strong action verbs. The experience section should have 2-3 entries.
     `;
 
     const response = await callAI(prompt, "You are a Professional Resume Architect.");
