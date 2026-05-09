@@ -1033,7 +1033,8 @@ export default function UnifiedBuilder({ onExit, initialStep = 1 }) {
             padding: 16px 20px; 
             flex-direction: row; 
             gap: 12px; 
-            height: 80px; 
+            height: auto; 
+            min-height: 80px;
             background: #ffffff;
             box-shadow: 0 -10px 40px rgba(0,0,0,0.06);
             justify-content: space-between;
@@ -1047,9 +1048,20 @@ export default function UnifiedBuilder({ onExit, initialStep = 1 }) {
           }
           .nav-btn-wizard.prev { background: white; border: 1.5px solid #e2e8f0; }
           .footer-dots-u { display: none; }
+          .step-header-u { flex-direction: column; align-items: flex-start; gap: 12px; }
           .step-header-u h2 { font-size: 1.2rem; }
-          .preview-toolbar-u { padding: 0 20px; }
-          .toolbar-actions-u { display: none; }
+          .preview-toolbar-u { padding: 10px 20px; flex-direction: column; gap: 10px; height: auto; }
+          .toolbar-actions-u { display: flex; width: 100%; justify-content: space-between; }
+          .btn-utility-u { flex: 1; justify-content: center; }
+          
+          /* Fix form grids and inputs on mobile */
+          .form-grid-u { grid-template-columns: 1fr; gap: 16px; }
+          .form-grid-u .full { grid-column: 1; }
+          .date-controls-row-u { flex-direction: column; align-items: stretch; gap: 16px; }
+          
+          /* Fix AI toolbar on mobile */
+          .ai-toolbar-u { flex-direction: column; align-items: stretch; gap: 12px; text-align: left; }
+          .btn-ai-sparkle { justify-content: center; }
         }
 
         @media (max-width: 480px) {
