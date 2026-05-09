@@ -250,7 +250,7 @@ export default function AIWizard() {
                       <CheckCircle2 size={56} color="#10b981" style={{marginBottom:"16px"}}/>
                       <h2 style={{...S.stepTitle,color:"#10b981"}}>Resume Generated! 🎉</h2>
                       <p style={{color:"#64748b",marginBottom:"24px"}}>Your professional resume is ready. You can preview it or continue editing.</p>
-                      <div style={{display:"flex",gap:"12px",justifyContent:"center",flexWrap:"wrap"}}>
+                      <div style={{display:"flex",gap:"12px",justifyContent:"center",flexWrap:"wrap"}} className="wizard-action-btns">
                         <button style={{...S.generateBtn,background:"white",color:"#2563eb",border:"2px solid #2563eb"}} onClick={() => navigate("/builder")}>✏️ Edit Resume</button>
                         <button style={S.generateBtn} onClick={() => navigate("/preview")}>👁 Preview Resume</button>
                       </div>
@@ -308,7 +308,7 @@ export default function AIWizard() {
                       <CheckCircle2 size={56} color="#10b981" style={{marginBottom:"16px"}}/>
                       <h2 style={{...S.stepTitle,color:"#10b981"}}>Resume Generated! 🎉</h2>
                       <p style={{color:"#64748b",marginBottom:"24px"}}>Your professional resume is ready.</p>
-                      <div style={{display:"flex",gap:"12px",justifyContent:"center",flexWrap:"wrap"}}>
+                      <div style={{display:"flex",gap:"12px",justifyContent:"center",flexWrap:"wrap"}} className="wizard-action-btns">
                         <button style={{...S.generateBtn,background:"white",color:"#6366f1",border:"2px solid #6366f1"}} onClick={() => navigate("/builder")}>✏️ Edit Resume</button>
                         <button style={{...S.generateBtn,background:"#6366f1"}} onClick={() => navigate("/preview")}>👁 Preview Resume</button>
                       </div>
