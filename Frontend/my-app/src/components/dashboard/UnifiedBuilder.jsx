@@ -742,10 +742,10 @@ export default function UnifiedBuilder({ onExit, initialStep = 1 }) {
           {/* Floating Mobile Toggle */}
           <button
             className="mobile-preview-toggle"
-            onClick={() => setShowMobilePreview(!showMobilePreview)}
+            onClick={() => navigate('/preview')}
           >
-            {showMobilePreview ? <X size={20} /> : <Eye size={20} />}
-            <span>{showMobilePreview ? 'Close' : 'Preview'}</span>
+            <Eye size={20} />
+            <span>Preview</span>
           </button>
           <header className="preview-toolbar-u">
             <div className="zoom-controls-u">
