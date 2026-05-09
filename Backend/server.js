@@ -13,21 +13,36 @@ app.use(cors({
   origin: frontendUrl,
   credentials: true
 }));
+
 app.use(express.json());
 
 const MONGO_URI = process.env.MONGO_URI || process.env.MONGODB_URI;
 const PORT = process.env.PORT || 5000;
 
+// Add connection event listeners for better debugging
+mongoose.connection.on("connecting", () => console.log("⏳ Connecting to MongoDB..."));
+mongoose.connection.on("connected", () => console.log("✅ MongoDB Connection Established"));
+mongoose.connection.on("error", (err) => console.error(`❌ MongoDB Connection Error: ${err.message}`));
+mongoose.connection.on("disconnected", () => console.log("🔌 MongoDB Disconnected"));
+
 const connectDB = async () => {
   try {
+    console.log("🔍 Checking MONGO_URI configuration...");
     if (!MONGO_URI) {
-      console.warn("⚠️ WARNING: MONGO_URI is not defined. Falling back to local database.");
+      console.error("❌ ERROR: MONGO_URI or MONGODB_URI is not defined in environment variables.");
+      return; // Don't exit yet, let the server start so we can see this log
     }
-    const conn = await mongoose.connect(MONGO_URI || "mongodb://127.0.0.1:27017/user");
+
+    console.log("📡 Attempting to connect to MongoDB Atlas...");
+    const conn = await mongoose.connect(MONGO_URI, {
+      serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of hanging indefinitely
+    });
+
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
-    console.error(`❌ Error connecting to MongoDB: ${error.message}`);
-    process.exit(1);
+    console.error(`❌ MongoDB connection error: ${error.message}`);
+    // Optional: process.exit(1); 
+    // On Render, exiting might cause a loop. Better to log and let it stay up for debugging.
   }
 };
 
@@ -37,5 +52,5 @@ app.use("/api/auth", authRouter);
 app.use("/api/ai", aiRouter);
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
