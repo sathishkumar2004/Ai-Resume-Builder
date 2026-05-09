@@ -19,12 +19,21 @@ export default function TemplateModern({ resume, primaryColor = '#2563eb' }) {
       fontFamily: "'Inter', sans-serif", 
       color: '#1e293b', 
       width: '100%', 
+      minHeight: '29.7cm',
+      position: 'relative',
       lineHeight: '1.5',
       padding: '40px',
-      backgroundColor: '#fff'
+      paddingBottom: '80px', // Extra padding to avoid overlap with footer
+      backgroundColor: '#fff',
+      boxSizing: 'border-box'
     }}>
       {/* Header */}
-      <header style={{ textAlign: 'center', marginBottom: '24px' }}>
+      <header style={{ textAlign: 'center', marginBottom: '24px', position: 'relative' }}>
+        {resume.profileImage && (
+          <div style={{ position: 'absolute', left: '0', top: '0', width: '80px', height: '80px', borderRadius: '12px', overflow: 'hidden', border: '1px solid #f1f5f9' }}>
+            <img src={resume.profileImage} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          </div>
+        )}
         <h1 style={{ 
           fontSize: '28px', 
           fontWeight: '800', 
@@ -59,6 +68,7 @@ export default function TemplateModern({ resume, primaryColor = '#2563eb' }) {
           {resume.location && <span>• {resume.location}</span>}
           {resume.portfolio && <span>• {resume.portfolio.replace(/^https?:\/\//,'')}</span>}
           {resume.linkedin && <span>• {resume.linkedin.replace(/^https?:\/\//,'')}</span>}
+          {resume.github && <span>• {resume.github.replace(/^https?:\/\//,'')}</span>}
         </div>
         
         {/* Languages in Header (Optional) */}
@@ -156,10 +166,80 @@ export default function TemplateModern({ resume, primaryColor = '#2563eb' }) {
             </section>
           );
         })}
+
+        {/* Personal Details Section (Optional) */}
+        {(resume.fatherName || resume.dob || resume.address || resume.nationality) && (
+          <section style={{ display: 'grid', gridTemplateColumns: '140px 1fr', gap: '20px', marginTop: '10px' }}>
+            <h2 style={{ 
+              fontSize: '11px', 
+              fontWeight: '900', 
+              color: primaryColor, 
+              textTransform: 'uppercase', 
+              letterSpacing: '1.5px',
+              margin: '0',
+              paddingTop: '2px'
+            }}>
+              Personal Details
+            </h2>
+
+            <div style={{ borderLeft: `1.5px solid #f1f5f9`, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              {resume.fatherName && (
+                <div style={{ fontSize: '10.5px', color: '#334155' }}>
+                  <span style={{ fontWeight: '700', color: '#64748b', minWidth: '100px', display: 'inline-block' }}>Father's Name:</span> {resume.fatherName}
+                </div>
+              )}
+              {resume.dob && (
+                <div style={{ fontSize: '10.5px', color: '#334155' }}>
+                  <span style={{ fontWeight: '700', color: '#64748b', minWidth: '100px', display: 'inline-block' }}>Date of Birth:</span> {resume.dob}
+                </div>
+              )}
+              {resume.nationality && (
+                <div style={{ fontSize: '10.5px', color: '#334155' }}>
+                  <span style={{ fontWeight: '700', color: '#64748b', minWidth: '100px', display: 'inline-block' }}>Nationality:</span> {resume.nationality}
+                </div>
+              )}
+              {resume.address && (
+                <div style={{ fontSize: '10.5px', color: '#334155' }}>
+                  <span style={{ fontWeight: '700', color: '#64748b', minWidth: '100px', display: 'inline-block' }}>Address:</span> {resume.address}
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* Declaration Section - ONLY for Wizard Resumes */}
+        {resume.isWizard && resume.declaration && (
+          <div style={{ marginTop: '30px', borderTop: '1px solid #f1f5f9', paddingTop: '15px' }}>
+            <h2 style={{ fontSize: '11px', fontWeight: '900', color: primaryColor, textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '8px' }}>
+              Declaration
+            </h2>
+            <p style={{ fontSize: '10.5px', color: '#475569', fontStyle: 'italic', margin: '0 0 16px 0' }}>
+              {resume.declaration}
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10.5px', color: '#1e293b', fontWeight: '600' }}>
+              <div>
+                <p style={{ margin: '0 0 4px 0' }}>Date: ________________</p>
+                <p style={{ margin: '0' }}>Place: ________________</p>
+              </div>
+              <div style={{ textAlign: 'center', minWidth: '120px' }}>
+                <p style={{ margin: '0 0 40px 0' }}>{resume.name}</p>
+                <p style={{ margin: '0', borderTop: '1px solid #000', paddingTop: '4px' }}>SIGNATURE</p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Footer / Extra */}
-      <footer style={{ marginTop: '30px', paddingTop: '15px', borderTop: '1px solid #f1f5f9', textAlign: 'center' }}>
+      {/* Footer / Extra - Pinned to bottom */}
+      <footer style={{ 
+        position: 'absolute', 
+        bottom: '40px', 
+        left: '40px', 
+        right: '40px', 
+        paddingTop: '15px', 
+        borderTop: '1px solid #f1f5f9', 
+        textAlign: 'center' 
+      }}>
         <p style={{ fontSize: '9px', color: '#94a3b8', margin: '0' }}>Generated by EliteCV Resume Architect</p>
       </footer>
     </div>

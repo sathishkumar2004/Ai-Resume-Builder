@@ -122,6 +122,24 @@ router.post("/generate-full", async (req, res) => {
 });
 
 // POST /api/ai/suggest-skills
+// POST /api/ai/generate-summary
+router.post("/generate-summary", async (req, res) => {
+  try {
+    const { formData, type } = req.body;
+    const prompt = `
+      Generate a professional, impactful 4-5 line summary for a ${type} candidate.
+      Candidate Details: ${JSON.stringify(formData)}
+      STRICT LIMIT: Maximum 450 characters. 
+      Tone: Professional, result-oriented, and tailored to the target role.
+      Output ONLY the summary text. No introductory phrases.
+    `;
+    const summary = await callAI(prompt, "You are a Professional Resume Architect.");
+    res.json({ success: true, summary });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 router.post("/suggest-skills", async (req, res) => {
   try {
     const { resumeData } = req.body;
@@ -166,7 +184,7 @@ router.post("/wizard-generate", async (req, res) => {
 
         Output ONLY a valid JSON object with this exact structure (no extra text, no markdown):
         {
-          "summary": "A single ATS-friendly career objective paragraph. STRICT LIMIT: 180 characters max.",
+          "summary": "A professional career objective paragraph. STRICT LIMIT: 450 characters max.",
           "skills": "comma-separated skills list (max 12 skills)",
           "education": [{ "degree": "${degree}", "institution": "${college}", "start": "", "end": "${yearOfPassing}", "location": "" }],
           "certifications": [],
@@ -196,7 +214,7 @@ router.post("/wizard-generate", async (req, res) => {
 
         Output ONLY a valid JSON object (no extra text, no markdown):
         {
-          "summary": "Single powerful paragraph. STRICT LIMIT: 200 characters max.",
+          "summary": "Powerful professional summary paragraph with metrics. STRICT LIMIT: 450 characters max.",
           "skills": "comma-separated top 15 skills",
           "experience": [
             { "company": "${currentCompany}", "position": "${role}", "start": "Jan 2022", "end": "Present", "location": "Remote", "description": "• Achievement bullet 1 (max 90 chars).\\n• Achievement bullet 2 (max 90 chars).\\n• Achievement bullet 3 (max 90 chars)." }

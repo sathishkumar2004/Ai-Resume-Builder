@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Download, Printer, Share2, ZoomIn, ZoomOut, RotateCcw, Loader2 } from "lucide-react";
+import { ArrowLeft, Download, Printer, ZoomIn, ZoomOut, RotateCcw, Loader2, Info } from "lucide-react";
 import html2pdf from "html2pdf.js";
 import useResumeStore from "../store/resumeStore";
 import TemplateModern from "../components/resume/TemplateModern";
@@ -9,8 +9,89 @@ import TemplateExecutive from "../components/resume/TemplateExecutive";
 import TemplateMinimal from "../components/resume/TemplateMinimal";
 import TemplateCreative from "../components/resume/TemplateCreative";
 
+// ─── Placeholder data shown when the user hasn't filled in their resume yet ───
+const PLACEHOLDER_RESUME = {
+  name: 'Alex Johnson',
+  role: 'Senior Full-Stack Developer',
+  email: 'alex.johnson@email.com',
+  phone: '+1 (555) 012-3456',
+  location: 'San Francisco, CA',
+  linkedin: 'linkedin.com/in/alexjohnson',
+  portfolio: 'alexjohnson.dev',
+  primaryLanguage: 'English (Native)',
+  secondaryLanguage: 'Spanish (Professional)',
+  sections: [
+    {
+      id: 'summary', isEnabled: true, type: 'text',
+      content: 'Results-driven Full-Stack Developer with 6+ years of experience designing and shipping scalable web applications. Proven track record of reducing load times by 45% and leading cross-functional teams of 8+ engineers. Passionate about clean architecture, developer experience, and AI-driven product development.'
+    },
+    {
+      id: 'skills', isEnabled: true, type: 'list',
+      content: 'React, TypeScript, Node.js, Python, AWS, Docker, Kubernetes, PostgreSQL, MongoDB, GraphQL, Redis, CI/CD'
+    },
+    {
+      id: 'experience', isEnabled: true, type: 'array',
+      content: [
+        {
+          position: 'Senior Full-Stack Engineer',
+          company: 'TechNova Solutions',
+          location: 'San Francisco, CA',
+          start: 'Mar 2021',
+          end: 'Present',
+          description: '• Architected a microservices platform serving 500K+ daily active users\n• Reduced API response time by 45% through Redis caching and query optimization\n• Led a team of 8 engineers, conducting code reviews and mentoring junior devs\n• Shipped 12 major product features, resulting in a 30% increase in user retention'
+        },
+        {
+          position: 'Full-Stack Developer',
+          company: 'Innovation Lab Inc.',
+          location: 'Austin, TX',
+          start: 'Jun 2018',
+          end: 'Feb 2021',
+          description: '• Built responsive React dashboards consumed by 100+ enterprise clients\n• Integrated Stripe and PayPal payment gateways, processing $2M+ monthly\n• Improved CI/CD pipelines, cutting deployment time from 40 min to 8 min'
+        }
+      ]
+    },
+    {
+      id: 'education', isEnabled: true, type: 'array',
+      content: [
+        { degree: 'B.Sc. Computer Science', institution: 'University of California, Berkeley', start: '2014', end: '2018', location: 'Berkeley, CA' }
+      ]
+    },
+    {
+      id: 'certifications', isEnabled: true, type: 'array',
+      content: [
+        { name: 'AWS Solutions Architect – Associate', issuer: 'Amazon Web Services', date: '2023' },
+        { name: 'Google Cloud Professional Developer', issuer: 'Google', date: '2022' }
+      ]
+    },
+    {
+      id: 'languages', isEnabled: true, type: 'text',
+      content: 'English (Native), Spanish (Professional)'
+    }
+  ]
+};
+
+/** Returns true when the user's resume has no meaningful content yet */
+function isResumeEmpty(resume) {
+  if (resume.name && resume.name.trim()) return false;
+  if (resume.fatherName && resume.fatherName.trim()) return false;
+  if (resume.dob && resume.dob.trim()) return false;
+  if (resume.address && resume.address.trim()) return false;
+
+  const hasSectionContent = (resume.sections || []).some(s => {
+    if (!s.isEnabled) return false;
+    if (Array.isArray(s.content)) return s.content.length > 0;
+    return typeof s.content === 'string' && s.content.trim().length > 0;
+  });
+  return !hasSectionContent;
+}
+
 export default function Preview() {
   const { resume } = useResumeStore();
+  const isEmpty = isResumeEmpty(resume);
+  // Merge: keep user's template choice, fill missing fields from placeholder
+  const displayResume = isEmpty
+    ? { ...PLACEHOLDER_RESUME, template: resume.template || 'modern' }
+    : resume;
   const [zoom, setZoom] = React.useState(0.85);
   const [hasManuallyZoomed, setHasManuallyZoomed] = React.useState(false);
   const [isDownloading, setIsDownloading] = React.useState(false);
@@ -35,8 +116,8 @@ export default function Preview() {
   }, [hasManuallyZoomed, fitZoom]);
 
   const renderSelectedTemplate = () => {
-    const props = { resume, primaryColor: "#2563eb" };
-    switch (resume.template) {
+    const props = { resume: displayResume, primaryColor: "#2563eb" };
+    switch (displayResume.template) {
       case "modern": return <TemplateModern {...props} />;
       case "executive": return <TemplateExecutive {...props} />;
       case "minimal": return <TemplateMinimal {...props} />;
@@ -77,7 +158,7 @@ export default function Preview() {
 
     const options = {
       margin: 0,
-      filename: `${resume.name.replace(/\s+/g, '_')}_Resume.pdf`,
+      filename: `${(displayResume.name || 'My').replace(/\s+/g, '_')}_Resume.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { 
         scale: 2, 
@@ -142,6 +223,23 @@ export default function Preview() {
         </div>
       </nav>
 
+      {/* Sample Data Banner – shown only when resume is empty */}
+      {isEmpty && (
+        <motion.div
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="sample-banner-u no-print"
+        >
+          <Info size={16} />
+          <span>
+            <strong>This is a sample preview.</strong> Go back to the editor and fill in your details — your real resume will appear here instantly.
+          </span>
+          <button className="banner-cta-u" onClick={() => navigate(-1)}>
+            Start Editing →
+          </button>
+        </motion.div>
+      )}
+
       {/* Preview Stage */}
       <main className="preview-stage-u">
         <div 
@@ -172,6 +270,36 @@ export default function Preview() {
           display: flex;
           flex-direction: column;
         }
+
+        /* Sample-data info banner */
+        .sample-banner-u {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          background: #fffbeb;
+          border-bottom: 1px solid #fde68a;
+          padding: 12px 24px;
+          font-size: 0.82rem;
+          color: #92400e;
+          font-weight: 500;
+          flex-wrap: wrap;
+        }
+        .sample-banner-u strong { font-weight: 800; }
+        .sample-banner-u span { flex: 1; min-width: 200px; }
+        .banner-cta-u {
+          background: #f59e0b;
+          color: white;
+          border: none;
+          padding: 7px 18px;
+          border-radius: 8px;
+          font-size: 0.8rem;
+          font-weight: 700;
+          cursor: pointer;
+          white-space: nowrap;
+          transition: 0.2s;
+        }
+        .banner-cta-u:hover { background: #d97706; transform: translateY(-1px); }
+
 
         .preview-nav-u {
           position: sticky;

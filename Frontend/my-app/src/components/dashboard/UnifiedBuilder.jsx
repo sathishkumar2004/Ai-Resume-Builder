@@ -17,6 +17,39 @@ import TemplateExecutive from "../resume/TemplateExecutive";
 import TemplateMinimal from "../resume/TemplateMinimal";
 import TemplateCreative from "../resume/TemplateCreative";
 
+// ─── Placeholder data shown when the user hasn't filled in their resume yet ───
+const PLACEHOLDER_RESUME = {
+  name: 'Sathish Kumar',
+  role: 'Full-Stack Developer',
+  email: 'sathish@example.com',
+  phone: '+91 98765 43210',
+  location: 'Chennai, TN',
+  primaryLanguage: 'English',
+  secondaryLanguage: 'Tamil',
+  sections: [
+    { id: 'summary', isEnabled: true, type: 'text', content: 'Passionate Full-Stack Developer with experience in building modern web applications using the MERN stack. Specialized in creating high-performance, user-centric interfaces and scalable backend systems.' },
+    { id: 'skills', isEnabled: true, type: 'list', content: 'React, Node.js, MongoDB, Express, JavaScript, TypeScript, Tailwind CSS, Git' },
+    { id: 'experience', isEnabled: true, type: 'array', content: [{ position: 'Software Engineer', company: 'Tech Solutions', location: 'Chennai', start: 'Jan 2022', end: 'Present', description: '• Developed and maintained multiple React applications.\n• Collaborated with team members to deliver high-quality code.' }] },
+    { id: 'education', isEnabled: true, type: 'array', content: [{ degree: 'B.E. Computer Science', institution: 'Anna University', start: '2018', end: '2022', location: 'Chennai' }] },
+    { id: 'certifications', isEnabled: true, type: 'array', content: [{ name: 'AWS Certified Developer', issuer: 'Amazon', date: '2023' }] },
+    { id: 'languages', isEnabled: true, type: 'text', content: 'English, Tamil' }
+  ]
+};
+
+function isResumeEmpty(resume) {
+  if (resume.name && resume.name.trim()) return false;
+  if (resume.fatherName && resume.fatherName.trim()) return false;
+  if (resume.dob && resume.dob.trim()) return false;
+  if (resume.address && resume.address.trim()) return false;
+  
+  const hasSectionContent = (resume.sections || []).some(s => {
+    if (!s.isEnabled) return false;
+    if (Array.isArray(s.content)) return s.content.length > 0;
+    return typeof s.content === 'string' && s.content.trim().length > 0;
+  });
+  return !hasSectionContent;
+}
+
 const EditorSection = ({ title, icon: Icon, sectionId, children }) => {
   const { resume, toggleSection } = useResumeStore();
   const section = sectionId ? resume.sections.find(s => s.id === sectionId) : null;
@@ -148,9 +181,12 @@ export default function UnifiedBuilder({ onExit, initialStep = 1 }) {
     finally { setLoadingAI(false); }
   };
 
+  const isEmpty = isResumeEmpty(resume);
+  const displayResume = isEmpty ? { ...PLACEHOLDER_RESUME, template: resume.template } : resume;
+
   const renderTemplate = () => {
-    const props = { resume, primaryColor: "#2563eb" };
-    switch (resume.template) {
+    const props = { resume: displayResume, primaryColor: "#2563eb" };
+    switch (displayResume.template) {
       case 'modern': return <TemplateModern {...props} />;
       case 'executive': return <TemplateExecutive {...props} />;
       case 'minimal': return <TemplateMinimal {...props} />;
@@ -806,6 +842,30 @@ export default function UnifiedBuilder({ onExit, initialStep = 1 }) {
           </header>
 
           <div className="preview-scroll-area scrollbar-hide">
+            {isEmpty && (
+              <div style={{
+                position: 'absolute',
+                top: '20px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 10,
+                background: 'rgba(251, 191, 36, 0.9)',
+                color: '#78350f',
+                padding: '6px 16px',
+                borderRadius: '100px',
+                fontSize: '0.75rem',
+                fontWeight: '700',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                backdropFilter: 'blur(4px)',
+                border: '1px solid rgba(251, 191, 36, 0.5)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                pointerEvents: 'none'
+              }}>
+                <Zap size={14} /> Live Sample Preview
+              </div>
+            )}
             <motion.div
               className="a4-canvas-u"
               style={{ scale: previewScale, transformOrigin: 'top center' }}
