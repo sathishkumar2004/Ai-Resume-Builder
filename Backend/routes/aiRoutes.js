@@ -35,21 +35,18 @@ router.post("/enhance", async (req, res) => {
     if (mode === "compact") {
       prompt = `Compact this text for a one-page resume without losing key impact: "${value}". Keep it under 15 words.`;
     } else {
-      const basePrompt = context.level === "Fresher" ? prompts.fresher(context.role) : prompts.experienced(context.role);
-      const roleFocus = context.role.toLowerCase().includes("frontend") ? prompts.frontend() : 
-                        context.role.toLowerCase().includes("backend") ? prompts.backend() : prompts.fullstack();
-      
       prompt = `
-        ${basePrompt} 
-        ${roleFocus} 
+        You are a Senior Technical Resume Editor.
+        Task: Enhance the following text for a ${context.role} role.
         
         CRITICAL CONSTRAINT: 
         1. Keep the output extremely concise to perfectly fit into a modern one-page resume template without overflowing.
-        ${field === 'summary' ? '2. STRICT LENGTH LIMIT: MAXIMUM 200 CHARACTERS. OUTPUT MUST BE A SINGLE PARAGRAPH. NO BULLET POINTS. NO NEW LINES.' : '2. STRICT LENGTH LIMIT: MAXIMUM 100 CHARACTERS PER BULLET POINT. Maintain the exact same number of bullet points as the input.'}
+        ${field === 'summary' ? '2. STRICT LENGTH LIMIT: MAXIMUM 200 CHARACTERS TOTAL. OUTPUT MUST BE A SINGLE PARAGRAPH. NO BULLET POINTS. NO NEW LINES.' : '2. STRICT LENGTH LIMIT: MAXIMUM 100 CHARACTERS PER BULLET POINT. Output a maximum of 2 bullet points.'}
         3. ONLY improve the professional wording, vocabulary, metrics, and impact.
-        4. DO NOT add fabricated achievements or remove existing meaning. DO NOT output introductory or conversational text.
+        4. DO NOT output introductory or conversational text. ONLY output the enhanced text itself.
+        5. DO NOT generate additional sections like "Summary" or "Skills". ONLY return the improved text for this specific field.
         
-        Original ${field}: "${value}"
+        Original Text to Enhance: "${value}"
         Improved Version:`;
     }
 
