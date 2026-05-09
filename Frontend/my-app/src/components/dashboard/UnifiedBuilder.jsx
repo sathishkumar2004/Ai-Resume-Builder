@@ -17,17 +17,63 @@ import TemplateExecutive from "../resume/TemplateExecutive";
 import TemplateMinimal from "../resume/TemplateMinimal";
 import TemplateCreative from "../resume/TemplateCreative";
 
-const EditorSection = ({ title, icon: Icon, children }) => (
-  <div className="editor-step-card">
-    <div className="step-header-u">
-      <div className="icon-box-u"><Icon size={20} /></div>
-      <h2>{title}</h2>
+const EditorSection = ({ title, icon: Icon, sectionId, children }) => {
+  const { resume, toggleSection } = useResumeStore();
+  const section = sectionId ? resume.sections.find(s => s.id === sectionId) : null;
+  const isEnabled = section ? section.isEnabled : true;
+
+  return (
+    <div className={`editor-step-card ${!isEnabled ? 'disabled-section' : ''}`}>
+      <div className="step-header-u" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div className="icon-box-u" style={{ opacity: isEnabled ? 1 : 0.4 }}><Icon size={20} /></div>
+          <h2 style={{ opacity: isEnabled ? 1 : 0.4 }}>{title}</h2>
+        </div>
+        
+        {sectionId && (
+          <label style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '8px', 
+            cursor: 'pointer',
+            background: isEnabled ? '#eff6ff' : '#f1f5f9',
+            padding: '6px 12px',
+            borderRadius: '100px',
+            border: `1px solid ${isEnabled ? '#bfdbfe' : '#e2e8f0'}`,
+            transition: '0.2s'
+          }}>
+            <span style={{ fontSize: '0.75rem', fontWeight: '700', color: isEnabled ? '#2563eb' : '#64748b' }}>
+              {isEnabled ? 'ON' : 'OFF'}
+            </span>
+            <input 
+              type="checkbox" 
+              checked={isEnabled} 
+              onChange={() => toggleSection(sectionId)} 
+              style={{ display: 'none' }}
+            />
+            <div style={{
+              width: '32px', height: '18px', background: isEnabled ? '#2563eb' : '#cbd5e1', borderRadius: '10px', position: 'relative', transition: '0.2s'
+            }}>
+              <div style={{
+                width: '14px', height: '14px', background: 'white', borderRadius: '50%', position: 'absolute', top: '2px', left: isEnabled ? '16px' : '2px', transition: '0.2s', boxShadow: '0 1px 3px rgba(0,0,0,0.2)'
+              }} />
+            </div>
+          </label>
+        )}
+      </div>
+      
+      {isEnabled ? (
+        <div className="step-body-u">
+          {children}
+        </div>
+      ) : (
+        <div className="step-body-u" style={{ padding: '30px', textAlign: 'center', color: '#64748b', fontSize: '0.9rem', fontStyle: 'italic', background: '#f8fafc', borderRadius: '0 0 16px 16px' }}>
+          This section is currently hidden from your resume. Toggle it ON to edit and display it.
+        </div>
+      )}
     </div>
-    <div className="step-body-u">
-      {children}
-    </div>
-  </div>
-);
+  );
+};
 
 export default function UnifiedBuilder({ onExit, initialStep = 1 }) {
   const [currentStep, setCurrentStep] = useState(initialStep);
@@ -213,7 +259,7 @@ export default function UnifiedBuilder({ onExit, initialStep = 1 }) {
                 )}
 
                 {currentStep === 2 && (
-                  <EditorSection title="Professional Summary" icon={Sparkles}>
+                  <EditorSection title="Professional Summary" icon={Sparkles} sectionId="summary">
                     <div className="ai-editor-box-u">
                       <div className="ai-toolbar-u">
                         <label>Executive Overview</label>
@@ -237,7 +283,7 @@ export default function UnifiedBuilder({ onExit, initialStep = 1 }) {
                 )}
 
                 {currentStep === 3 && (
-                  <EditorSection title="Work History" icon={Briefcase}>
+                  <EditorSection title="Work History" icon={Briefcase} sectionId="experience">
                     <div className="entries-list-u">
                       {resume.sections.find(s => s.id === 'experience').content.map((exp, i) => (
                         <div key={i} className="entry-card-u">
@@ -409,7 +455,7 @@ export default function UnifiedBuilder({ onExit, initialStep = 1 }) {
                 )}
 
                 {currentStep === 4 && (
-                  <EditorSection title="Education" icon={GraduationCap}>
+                  <EditorSection title="Education" icon={GraduationCap} sectionId="education">
                     <div className="entries-list-u">
                       {resume.sections.find(s => s.id === 'education').content.map((edu, i) => (
                         <div key={i} className="entry-card-u">
@@ -476,7 +522,7 @@ export default function UnifiedBuilder({ onExit, initialStep = 1 }) {
                 )}
 
                 {currentStep === 5 && (
-                  <EditorSection title="Technical Skills" icon={Rocket}>
+                  <EditorSection title="Technical Skills" icon={Rocket} sectionId="skills">
                     <div className="ai-editor-box-u experience-ai-box">
                       <div className="ai-toolbar-u mini">
                         <label>Skill Management</label>
@@ -553,7 +599,7 @@ export default function UnifiedBuilder({ onExit, initialStep = 1 }) {
                 )}
 
                 {currentStep === 6 && (
-                  <EditorSection title="Languages" icon={Languages}>
+                  <EditorSection title="Languages" icon={Languages} sectionId="languages">
                     <div className="ai-editor-box-u experience-ai-box">
                       <div className="ai-toolbar-u mini">
                         <label>Linguistic Proficiencies</label>
@@ -588,7 +634,7 @@ export default function UnifiedBuilder({ onExit, initialStep = 1 }) {
                 )}
 
                 {currentStep === 7 && (
-                  <EditorSection title="Certifications" icon={Award}>
+                  <EditorSection title="Certifications" icon={Award} sectionId="certifications">
                     <div className="entries-list-u">
                       {(resume.sections.find(s => s.id === 'certifications').content || []).map((cert, idx) => (
                         <div key={idx} className="entry-card-u">
