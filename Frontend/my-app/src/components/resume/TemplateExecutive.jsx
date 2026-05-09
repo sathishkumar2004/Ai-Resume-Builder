@@ -69,8 +69,17 @@ export default function TemplateExecutive({ resume, primaryColor = '#1e293b' }) 
                 )}
 
                 {id === 'skills' && (
-                  <div style={{ fontSize: '11.5px', color: '#333', lineHeight: '1.6' }}>
-                    {typeof section.content === 'string' ? section.content : ''}
+                  <div style={{ fontSize: '11.5px', color: '#333', lineHeight: '1.6', display: 'flex', flexWrap: 'wrap', gap: '4px 10px' }}>
+                    {(typeof section.content === 'string' ? section.content.split(/[,\n]/) : []).map((item, i, arr) => {
+                      const trimmed = item.trim().replace(/^[•\-\*]\s*/, '');
+                      if (!trimmed) return null;
+                      return (
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                          <span style={{ fontWeight: '600' }}>{trimmed}</span>
+                          {i < arr.length - 1 && <span style={{ color: primaryColor, opacity: 0.5 }}>|</span>}
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
 
@@ -80,15 +89,19 @@ export default function TemplateExecutive({ resume, primaryColor = '#1e293b' }) 
                       <div key={i}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
                           <span style={{ fontWeight: '800', fontSize: '13px', color: '#000' }}>
-                            {item.position || item.title || item.degree}
+                            {item.position || item.title || item.degree || item.name}
                           </span>
                           <span style={{ fontSize: '11px', fontWeight: '700', color: '#666' }}>
-                            {item.start || item.year} — {item.end || 'PRESENT'}
+                            {item.start || item.year || item.date} 
+                            {(item.start || item.year || item.date) && (item.end || item.isCurrent) ? ' — ' : ''}
+                            {item.isCurrent ? 'PRESENT' : (item.end || '')}
                           </span>
                         </div>
-                        <div style={{ fontSize: '12px', fontWeight: '700', color: primaryColor, marginBottom: '8px' }}>
-                          {item.company || item.institution}
-                        </div>
+                        {(item.company || item.institution || item.issuer) && (
+                          <div style={{ fontSize: '12px', fontWeight: '700', color: primaryColor, marginBottom: '8px' }}>
+                            {item.company || item.institution || item.issuer}
+                          </div>
+                        )}
                         
                         {item.description && (
                           <div style={{ fontSize: '11px', color: '#333', lineHeight: '1.5' }}>

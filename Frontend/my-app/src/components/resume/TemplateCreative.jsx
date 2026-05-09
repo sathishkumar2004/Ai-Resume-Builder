@@ -109,7 +109,7 @@ export default function TemplateCreative({ resume, primaryColor = '#10b981' }) {
 
         {/* Sidebar Column */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
-          {['education', 'skills'].map(id => {
+          {['education', 'certifications', 'skills'].map(id => {
             const section = getSection(id);
             if (!section || !section.isEnabled || !section.content || (Array.isArray(section.content) && section.content.length === 0)) return null;
 
@@ -128,29 +128,32 @@ export default function TemplateCreative({ resume, primaryColor = '#10b981' }) {
 
                 {id === 'skills' && (
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                    {(typeof section.content === 'string' ? section.content.split(',') : []).map((skill, i) => (
-                      <span key={i} style={{ 
-                        fontSize: '10px', 
-                        background: '#f1f5f9', 
-                        color: '#475569', 
-                        padding: '4px 10px', 
-                        borderRadius: '100px', 
-                        fontWeight: '700',
-                        border: '1px solid #e2e8f0'
-                      }}>
-                        {skill.trim()}
-                      </span>
-                    ))}
+                    {(typeof section.content === 'string' ? section.content.split(/[,\n]/) : []).map((skill, i) => {
+                      const trimmed = skill.trim().replace(/^[•\-\*]\s*/, '');
+                      if (!trimmed) return null;
+                      return (
+                        <span key={i} style={{ 
+                          fontSize: '10.5px', 
+                          background: '#f8fafc', 
+                          color: primaryColor, 
+                          padding: '6px 12px', 
+                          borderRadius: '6px', 
+                          fontWeight: '700'
+                        }}>
+                          {trimmed}
+                        </span>
+                      );
+                    })}
                   </div>
                 )}
 
-                {section.type === 'array' && id === 'education' && (
+                {section.type === 'array' && (id === 'education' || id === 'certifications') && (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                     {section.content.map((item, i) => (
                       <div key={i}>
-                        <div style={{ fontWeight: '800', fontSize: '12px', color: '#0f172a' }}>{item.degree}</div>
-                        <div style={{ fontSize: '11px', color: '#64748b' }}>{item.institution}</div>
-                        <div style={{ fontSize: '11px', color: primaryColor, fontWeight: '700' }}>{item.year}</div>
+                        <div style={{ fontWeight: '800', fontSize: '12px', color: '#0f172a' }}>{item.degree || item.name}</div>
+                        <div style={{ fontSize: '11px', color: '#64748b' }}>{item.institution || item.issuer}</div>
+                        <div style={{ fontSize: '11px', color: primaryColor, fontWeight: '700' }}>{item.year || item.date}</div>
                       </div>
                     ))}
                   </div>

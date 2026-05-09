@@ -101,22 +101,17 @@ export default function TemplateModern({ resume, primaryColor = '#2563eb' }) {
 
                 {/* Skills & Languages Section */}
                 {(id === 'skills' || id === 'languages') && (
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                    {(typeof section.content === 'string' ? section.content.split(/[,\n]/) : []).map((item, i) => (
-                      item.trim() && (
-                        <span key={i} style={{ 
-                          fontSize: '10px', 
-                          background: id === 'languages' ? '#eff6ff' : '#f8fafc', 
-                          color: id === 'languages' ? primaryColor : '#475569', 
-                          padding: '4px 10px', 
-                          borderRadius: '4px', 
-                          fontWeight: '600',
-                          border: `1px solid ${id === 'languages' ? '#dbeafe' : '#e2e8f0'}`
-                        }}>
-                          {item.trim().replace(/^[•\-\*]\s*/, '')}
-                        </span>
-                      )
-                    ))}
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 12px', fontSize: '11px', color: '#334155', fontWeight: '600', lineHeight: '1.6' }}>
+                    {(typeof section.content === 'string' ? section.content.split(/[,\n]/) : []).map((item, i, arr) => {
+                      const trimmed = item.trim().replace(/^[•\-\*]\s*/, '');
+                      if (!trimmed) return null;
+                      return (
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                          <span>{trimmed}</span>
+                          {i < arr.length - 1 && <span style={{ color: primaryColor, opacity: 0.6 }}>•</span>}
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
 

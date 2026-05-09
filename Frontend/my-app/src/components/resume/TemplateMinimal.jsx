@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function TemplateMinimal({ resume, primaryColor = '#1e293b' }) {
   const getSection = (id) => resume.sections?.find(s => s.id === id);
-  const SECTION_ORDER = ['summary', 'experience', 'education', 'skills'];
+  const SECTION_ORDER = ['summary', 'experience', 'education', 'certifications', 'skills'];
 
   return (
     <div style={{ 
@@ -62,9 +62,18 @@ export default function TemplateMinimal({ resume, primaryColor = '#1e293b' }) {
                 )}
 
                 {id === 'skills' && (
-                  <p style={{ fontSize: '11.5px', color: '#1a1a1a', margin: '0' }}>
-                    {typeof section.content === 'string' ? section.content : ''}
-                  </p>
+                  <div style={{ fontSize: '11.5px', color: '#1a1a1a', margin: '0', lineHeight: '1.6', display: 'flex', flexWrap: 'wrap', gap: '4px 10px' }}>
+                    {(typeof section.content === 'string' ? section.content.split(/[,\n]/) : []).map((item, i, arr) => {
+                      const trimmed = item.trim().replace(/^[•\-\*]\s*/, '');
+                      if (!trimmed) return null;
+                      return (
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                          <span>{trimmed}</span>
+                          {i < arr.length - 1 && <span>•</span>}
+                        </div>
+                      );
+                    })}
+                  </div>
                 )}
 
                 {section.type === 'array' && (
@@ -73,14 +82,16 @@ export default function TemplateMinimal({ resume, primaryColor = '#1e293b' }) {
                       <div key={i}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
                           <span style={{ fontWeight: '700', fontSize: '12px' }}>
-                            {item.company || item.institution}
+                            {item.company || item.institution || item.issuer}
                           </span>
                           <span style={{ fontSize: '11px', fontStyle: 'italic' }}>
-                            {item.start || item.year} — {item.end || 'Present'}
+                            {item.start || item.year || item.date} 
+                            {(item.start || item.year || item.date) && (item.end || item.isCurrent) ? ' — ' : ''}
+                            {item.isCurrent ? 'Present' : (item.end || '')}
                           </span>
                         </div>
                         <div style={{ fontSize: '11.5px', marginBottom: '6px', fontWeight: '500' }}>
-                          {item.position || item.title || item.degree}
+                          {item.position || item.title || item.degree || item.name}
                         </div>
                         
                         {item.description && (
